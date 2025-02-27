@@ -19,7 +19,7 @@ A comprehensive web application that provides AI-powered text summarization, ima
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/Yajun595/Generative-AI.git
+git clone https://github.com/Yajun595/ai-assistant.git
 cd ai-assistant
 ```
 
