@@ -50,7 +50,7 @@ async def summarize_text(request: PromptRequest):
     if not request.prompt:
         raise HTTPException(status_code=400, detail="Text input is required")
 
-    summary = summarizer(request.text, max_length=130, min_length=30, do_sample=False)
+    summary = summarizer(request.prompt, max_length=130, min_length=30, do_sample=False)
     return {"summary": summary[0]['summary_text']}
 
 
