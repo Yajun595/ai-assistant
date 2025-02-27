@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background: #f0f0f0;
+            border: none;
+            margin-right: 5px;
+        }
+
+        .tab.active {
+            background: #007bff;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            min-height: 100px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab(0)">Text Summarization</button>
+        <button class="tab" onclick="switchTab(1)">Generate Image</button>
+        <button class="tab" onclick="switchTab(2)">Generate Speech</button>
+    </div>
+
+    <div class="tab-content active" id="summarize">
+        <h2>Text Summarization</h2>
+        <textarea placeholder="Enter text to summarize"></textarea>
+        <button onclick="summarizeText()">Generate Summary</button>
+        <div class="result" id="summarize-result"></div>
+    </div>
+
+    <div class="tab-content" id="image">
+        <h2>Generate Image</h2>
+        <textarea placeholder="Enter image description"></textarea>
+        <button onclick="generateImage()">Generate Image</button>
+        <div class="result" id="image-result"></div>
+    </div>
+
+    <div class="tab-content" id="speech">
+        <h2>Generate Speech</h2>
+        <textarea placeholder="Enter text to convert to speech"></textarea>
+        <button onclick="generateSpeech()">Generate Speech</button>
+        <div class="result" id="speech-result"></div>
+    </div>
+
+    <script>
+        function switchTab(index) {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+
+            tabs[index].classList.add('active');
+            contents[index].classList.add('active');
+        }
+
+        async function summarizeText() {
+            const text = document.querySelector('#summarize textarea').value;
+            const resultDiv = document.querySelector('#summarize-result');
+
+            try {
+                const response = await fetch('/summarize/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ prompt: text })
+                });
+
+                const data = await response.json();
+                resultDiv.textContent = data.summary;
+            } catch (error) {
+                resultDiv.textContent = 'Error：' + error.message;
+            }
+        }
+
+        async function generateImage() {
+            const prompt = document.querySelector('#image textarea').value;
+            const resultDiv = document.querySelector('#image-result');
+
+            try {
+                const response = await fetch('/generate/image', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ prompt })
+                });
+
+                const data = await response.json();
+                resultDiv.innerHTML = `<img src="data:image/png;base64,${data.image_base64}" alt="生成的图片">`;
+            } catch (error) {
+                resultDiv.textContent = 'Error：' + error.message;
+            }
+        }
+
+        async function generateSpeech() {
+            const text = document.querySelector('#speech textarea').value;
+            const resultDiv = document.querySelector('#speech-result');
+
+            try {
+                const response = await fetch('/generate/speech', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ prompt: text })
+                });
+
+                const blob = await response.blob();
+                const audioUrl = URL.createObjectURL(blob);
+                resultDiv.innerHTML = `
+                    <audio controls>
+                        <source src="${audioUrl}" type="audio/wav">
+                        Your browser does not support audio playback.
+                    </audio>
+                `;
+            } catch (error) {
+                resultDiv.textContent = 'Error：' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
