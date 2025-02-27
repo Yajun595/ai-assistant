@@ -98,6 +98,7 @@ generative-ai/
 ├── train/ # Model training scripts
 ├── models/ # Pre-trained model files
 └── README.md # Project documentation
+```
 
 ## Technologies Used
 
