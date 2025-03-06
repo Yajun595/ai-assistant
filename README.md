@@ -1,18 +1,23 @@
-# AI Assistant Web Application
+# AI Assistant Application
 
-A comprehensive web application that provides AI-powered text summarization, image generation, and speech synthesis services.
+A comprehensive AI application that provides various AI services through web interface and Telegram bot.
 
 ## Features
 
-- **Text Summarization**: Summarizes long text into concise versions using a fine-tuned text summarization model based on Falconsai/text_summarization
-- **Image Generation**: Creates images from text descriptions using Stable Diffusion Turbo model
-- **Speech Synthesis**: Converts text to natural-sounding speech using Bark-small model
+- **Chat Bot**: Intelligent conversation powered by Gemini model
+- **Image Generation**: Creates images from text descriptions using Imagen model
+- **Weather Information**: Real-time weather data via RapidAPI
+- **Voice Transcription**: Converts voice messages to text
+- **Multiple Interfaces**:
+  - Web API (FastAPI)
+  - Telegram Bot
 
 ## Prerequisites
 
 - Python 3.8+
-- CUDA-compatible GPU
-- At least 8GB GPU memory
+- Gemini API Key
+- Telegram Bot Token
+- RapidAPI Key
 
 ## Installation
 
@@ -29,81 +34,80 @@ cd ai-assistant
 pip install -r requirements.txt
 ```
 
-3. Download the pre-trained models:
+3. Configure environment variables:
+Create a `.env` file with:
+```env
+GEMINI_API_KEY=your_gemini_api_key
+TELEGRAM_BOT_TOKEN=your_telegram_bot_token
+RAPID_KEY=your_rapid_api_key
+```
 
-The models will be downloaded automatically when first running the application
+## Running the Applications
 
-## Running the Application
+### Telegram Bot
+```bash
+python openai/telegram_bot.py
+```
 
-1. Start the FastAPI server:
+### Gemini Demo
+```bash
+python gemini/gemini_demo.py
+```
 
+### Web Server
 ```bash
 uvicorn app:app --reload
 ```
+Access at: `http://127.0.0.1:8000/`
 
-2. Open your browser and navigate to:
+## Components
 
-```bash
-http://127.0.0.1:8000/
-```
+### Telegram Bot Features
+- Start conversation with `/start`
+- Get help with `/help`
+- Chat with AI assistant
+- Generate images from descriptions
+- Get weather information
+- Voice message transcription
 
+### Gemini Demo Features
+- Text generation using Gemini model
+- Image generation using Imagen
+- Weather information retrieval
+- Audio transcription and analysis
 
-## API Endpoints
+### Web API Endpoints
+- **POST /summarize/**
+  - Summarizes input text
+  - Request: `{"prompt": "text to summarize"}`
+  - Response: `{"summary": "summarized text"}`
 
-### POST /summarize/
-Summarizes input text
-- Request body: `{"prompt": "text to summarize"}`
-- Returns: `{"summary": "summarized text"}`
+- **POST /generate/image**
+  - Generates images from text
+  - Request: `{"prompt": "image description"}`
+  - Response: `{"prompt": "original prompt", "image_base64": "base64 encoded image"}`
 
-### POST /generate/image
-Generates an image from text prompt
-- Request body: `{"prompt": "image description"}`
-- Returns: `{"prompt": "original prompt", "image_base64": "base64 encoded image"}`
-
-### POST /generate/speech  
-Converts text to speech
-- Request body: `{"prompt": "text to speak"}`
-- Returns: Audio file (WAV format)
-
-## Model Training
-
-### Text Summarization Training
-The text summarization model is trained on the Billsum dataset:
-
-```bash
-cd train
-python train_summarization.py
-```
-
-### Image Generation
-Uses the pre-trained Stable Diffusion Turbo model:
-
-```bash
-python text_to_image.py
-```
-
-### Speech Synthesis
-Uses the pre-trained Bark-small model:
-
-```bash
-python text_to_speech.py
-```
+- **POST /generate/speech**
+  - Converts text to speech
+  - Request: `{"prompt": "text to speak"}`
+  - Response: Audio file (WAV format)
 
 ## Project Structure
-
 ```bash
-generative-ai/
-├── app.py # FastAPI application
-├── requirements.txt # Dependencies
-├── train/ # Model training scripts
-├── models/ # Pre-trained model files
-└── README.md # Project documentation
+ai-assistant/
+├── app.py              # FastAPI web application
+├── gemini/
+│   ├── gemini_demo.py  # Gemini/Gemini demo script
+│   └── telegram_bot.py # Telegram bot implementation
+├── requirements.txt    # Project dependencies
+└── README.md          # Project documentation
 ```
 
 ## Technologies Used
 
 - FastAPI - Web framework
-- Transformers - For text summarization and speech synthesis
-- Diffusers - For image generation
-- PyTorch - Deep learning framework
-- TorchAudio - Audio processing
+- aiogram - Telegram Bot API framework
+- OpenAI/Gemini - AI models
+- Python-dotenv - Environment management
+- Pillow - Image processing
+- requests - HTTP client
