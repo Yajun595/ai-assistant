@@ -116,3 +116,4 @@ ai-assistant/
 - Python-dotenv - Environment management
 - Pillow - Image processing
 - requests - HTTP client
+- Chroma - Vector Database
