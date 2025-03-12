@@ -3,6 +3,7 @@ fastapi>=0.68.0
 uvicorn>=0.15.0
 python-multipart>=0.0.5
 pydantic>=1.8.2
+starlette~=0.45.3
 
 # Deep Learning & AI
 torch>=2.0.0
@@ -26,13 +27,18 @@ evaluate>=0.4.0
 # OpenAI
 openai>=1.1.0
 
+# Vector Database
+chromadb
+tiktoken
+langchain
+langchain-community
+langchain-openai
+
+# Telegram Bot
+aiogram~=3.18.0
+
+# HTTP Client
+requests~=2.32.3
+
 # Environment Variables
 python-dotenv
-
-# Google Gemini
-google~=3.0.0
-
-# telegram
-aiogram~=3.18.0
-starlette~=0.45.3
-requests~=2.32.3

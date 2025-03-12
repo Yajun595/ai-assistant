@@ -8,6 +8,7 @@ A comprehensive AI application that provides various AI services through web int
 - **Image Generation**: Creates images from text descriptions using Imagen model
 - **Weather Information**: Real-time weather data via RapidAPI
 - **Voice Transcription**: Converts voice messages to text
+- **Vector Database**: Document search and Q&A using ChromaDB
 - **Multiple Interfaces**:
   - Web API (FastAPI)
   - Telegram Bot
@@ -16,6 +17,7 @@ A comprehensive AI application that provides various AI services through web int
 
 - Python 3.8+
 - Gemini API Key
+- OpenAI API Key
 - Telegram Bot Token
 - RapidAPI Key
 
@@ -38,6 +40,7 @@ pip install -r requirements.txt
 Create a `.env` file with:
 ```env
 GEMINI_API_KEY=your_gemini_api_key
+OPENAI_API_KEY=your_openai_api_key
 TELEGRAM_BOT_TOKEN=your_telegram_bot_token
 RAPID_KEY=your_rapid_api_key
 ```
@@ -95,12 +98,14 @@ Access at: `http://127.0.0.1:8000/`
 ## Project Structure
 ```bash
 ai-assistant/
-├── app.py              # FastAPI web application
+├── app.py                # FastAPI web application
 ├── gemini/
-│   ├── gemini_demo.py  # Gemini/Gemini demo script
-│   └── telegram_bot.py # Telegram bot implementation
-├── requirements.txt    # Project dependencies
-└── README.md          # Project documentation
+│   ├── gemini_demo.py    # Gemini demo script
+│   └── telegram_bot.py   # Telegram bot implementation
+├── vector_db/
+│   └── chromadb_demo.py  # Vector database demo
+├── requirements.txt      # Project dependencies
+└── README.md            # Project documentation
 ```
 
 ## Technologies Used

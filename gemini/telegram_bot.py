@@ -24,8 +24,6 @@ client = OpenAI(
     base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
 )
 
-# Initialize Telegram bot with proxy
-bot = Bot(token=TELEGRAM_BOT_TOKEN)
 dp = Dispatcher()
 
 # Utility Functions
